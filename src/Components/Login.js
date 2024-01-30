@@ -1,13 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useState } from "react";
 import { api } from "./api";
 import { Navigate } from "react-router-dom";
+import { userContext } from "../UserContext";
 
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [redirect, setRedirect] = useState(false);
-
+  const { setUserInfo } = useContext(userContext);
   // const login = (event) => {
   //   event.preventDefault();
   //   api()
@@ -38,6 +39,9 @@ function Login() {
     });
 
     if (response.ok) {
+      response.json().then((userInfo) => {
+        setUserInfo(userInfo);
+      });
       setRedirect(true);
     } else {
       alert("Wrong credentials");

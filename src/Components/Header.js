@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { userContext } from "../UserContext";
 
 function Header() {
-  const [username, setUsername] = useState("");
+  const { userInfo, setUserInfo } = useContext(userContext);
 
   useEffect(() => {
     fetch("http://localhost:4000/profile", {
@@ -11,13 +12,13 @@ function Header() {
     })
       .then((response) => {
         response.json().then((userInfo) => {
-          setUsername(userInfo.username);
+          setUserInfo(userInfo);
         });
       })
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [setUserInfo]);
 
   function logout(event) {
     event.preventDefault();
@@ -26,12 +27,14 @@ function Header() {
       method: "POST",
       credentials: "include",
     });
-    setUsername(null);
+    setUserInfo(null);
   }
+
+  const username = userInfo?.username;
   return (
     <header>
       <Link to="" className="logo">
-        MyBlog
+        Edu Advisor
       </Link>
       <nav>
         {username && (

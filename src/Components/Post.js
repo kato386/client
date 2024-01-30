@@ -1,31 +1,25 @@
-function Post() {
+import { formatISO9075 } from "date-fns";
+import { Link } from "react-router-dom";
+function Post({ id, title, summary, content, createdAt, cover, User }) {
   return (
     <div className="post">
       <div className="image">
-        <img
-          src="https://m.media-amazon.com/images/I/81DpGT7-McL._AC_SX679_.jpg"
-          alt=""
-        />
+        <Link to={`/post/${id}`}>
+          <img src={"http://localhost:4000/" + cover} alt="" />
+        </Link>
       </div>
 
       <div className="content">
-        <h2>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Dicta cum
-          eveniet adipisci optio aliquid. Praesentium exercitationem nobis
-          libero.
-        </h2>
+        <Link to={`/post/${id}`}>
+          <h2>{title}</h2>
+        </Link>
         <p className="info">
-          <a href="" className="author">
-            Cagatay Ergunes
-          </a>
-          <time>2024-01-08 23:12</time>
+          <div href="" className="author">
+            {User.username}
+          </div>
+          <time>{formatISO9075(new Date(createdAt))}</time>
         </p>
-        <p className="summary">
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Facere velit
-          quas ex iusto id ea odit ad perferendis nostrum aliquid necessitatibus
-          itaque, magni fugiat veritatis architecto voluptas a maiores!
-          Possimus.
-        </p>
+        <p className="summary">{summary}</p>
       </div>
     </div>
   );
